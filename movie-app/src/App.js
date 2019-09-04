@@ -37,21 +37,30 @@ class App extends Component {
     }, 3000);
     */
 
-    fetch('https://yts.lt/api/v2/list_movies.json?sort_by=rating')
-    .then(response => {
-      console.log(response);
-      return response.json();
-    })
-    .then(json => console.log(json))
-    .catch(err => console.log(err))
+    this._getMovies();
   }
 
   _randerMovies = () => {
     const movies = this.state.movies.map((movie, index) => {
-      return <Movie title={movie.title} poster={movie.poster} key={index}/>
+      return <Movie title={movie.title} poster={movie.large_cover_image} key={movie.id}/>
     })
     console.log(movies);
     return movies;
+  }
+
+  _getMovies = async () => {
+    const movies = await this._callApi();
+    this.setState({movies});
+  }
+
+  _callApi = () => {
+    return fetch('https://yts.lt/api/v2/list_movies.json?sort_by=rating')
+    .then(response => {
+      console.log(response);
+      return response.json();
+    })
+    .then(json => json.data.movies)
+    .catch(err => console.log(err))
   }
 
   render() {
