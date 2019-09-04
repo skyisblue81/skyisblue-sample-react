@@ -42,7 +42,12 @@ class App extends Component {
 
   _randerMovies = () => {
     const movies = this.state.movies.map((movie, index) => {
-      return <Movie title={movie.title} poster={movie.large_cover_image} key={movie.id}/>
+      return <Movie 
+        title={movie.title_english} 
+        poster={movie.medium_cover_image} 
+        genres={movie.genres}
+        synopsis={movie.synopsis} 
+        key={movie.id}/>
     })
     console.log(movies);
     return movies;
